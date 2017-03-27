@@ -1,0 +1,10 @@
+obj
+bin
+*.csproj.user
+*.vbproj.user
+*.xproj.user
+*.DotSettings.user
+
+.vs/
+.idea/
+published/

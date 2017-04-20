@@ -24,7 +24,7 @@ resource "aws_lambda_permission" "allow_api_gateway" {
   statement_id = "AllowExecutionFromApiGateway"
   action = "lambda:InvokeFunction"
   principal = "apigateway.amazonaws.com"
-  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.example_api.id}/*/${aws_api_gateway_method.example_api_method.http_method}${aws_api_gateway_resource.example_api_resource.path}"
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.example_api.id}/*/${aws_api_gateway_method.example_api_method.http_method}${aws_api_gateway_resource.example_api_resource.path}"
 }
 
 resource "aws_api_gateway_rest_api" "example_api" {
@@ -50,7 +50,7 @@ resource "aws_api_gateway_integration" "example_api_method-integration" {
   resource_id = "${aws_api_gateway_resource.example_api_resource.id}"
   http_method = "${aws_api_gateway_method.example_api_method.http_method}"
   type = "AWS_PROXY"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.region}:${var.account_id}:function:${aws_lambda_function.example_test_function.function_name}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.region}:${data.aws_caller_identity.current.account_id}:function:${aws_lambda_function.example_test_function.function_name}/invocations"
   integration_http_method = "POST"
 }
 

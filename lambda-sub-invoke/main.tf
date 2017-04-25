@@ -2,39 +2,8 @@ resource "aws_iam_role_policy" "example_policy" {
   name = "example_policy"
   role = "${aws_iam_role.example_api_role.id}"
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-      {
-          "Sid": "Stmt1493060054000",
-          "Effect": "Allow",
-          "Action": [
-              "lambda:InvokeAsync",
-              "lambda:InvokeFunction"
-          ],
-          "Resource": [
-              "arn:aws:lambda:*:*:*"
-          ]
-      },
-      {
-          "Sid": "Stmt1493060108000",
-          "Effect": "Allow",
-          "Action": [
-              "logs:CreateLogGroup",
-              "logs:CreateLogStream",
-              "logs:DescribeLogStreams",
-              "logs:PutLogEvents"
-          ],
-          "Resource": [
-              "arn:aws:logs:*:*:*"
-          ]
-      }
-  ]
+  policy = "${file("policies/api-lambda-role-policy.json")}"
 }
-EOF
-}
-
 
 resource "aws_iam_role" "example_api_role" {
   name = "example_api_role"
